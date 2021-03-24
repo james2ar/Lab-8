@@ -3,36 +3,81 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.Random;
 
-public class guessingGame implements ActionListener {
-  JtextField guess;
-  Jbutton guessButton;
-  Jbutton playAgain;
-  Jlabel enterGuess;
-  Jlabel highLow;
-  Jlabel lastGuess;
+public class GuessingGame implements ActionListener {
+  JTextField Uguess;
+  JButton guessButton;
+  JButton playAgainButton;
+  JLabel userGuess;
+  JLabel highLow;
+  JLabel lastGuess;
 
   Random r = new Random();
   int randomNum;
 
-  guessingGame() {
-    int randomNum = r.nextint(100);
+  GuessingGame() {
+
+    randomNum = r.nextInt(101);
 
     JFrame frame = new JFrame("Guessing Game");
-    frame.setLayout(new FlowLayout());
-    frame.setSize(240,120);
 
-    guess = new JTextField(10);
-    userGuess.setActionCommand("myTF");
+    frame.setLayout(new FlowLayout()); 
+    frame.setSize(240, 120);
 
-    JButton guessButton = new JButton("Button");
-    JButton playAgain = new JButton("Play Again");
+    Uguess = new JTextField(10); 
 
-    userGuess.addActionListener(this);
+    Uguess.setActionCommand("myTF");
+    guessButton = new JButton("Guess");
+    playAgainButton = new JButton("Play Again");
+
+    Uguess.addActionListener(this);
     guessButton.addActionListener(this);
-    playAgain.addActionListener(this);
+    playAgainButton.addActionListener(this);
 
-    enterGuess = new JLabel ("");
-    
+    userGuess = new JLabel("Enter your guess:");
+    highLow = new JLabel("");
+    lastGuess = new JLabel("");
 
+    frame.add(userGuess);
+    frame.add(Uguess);
+    frame.add(guessButton);
+    frame.add(highLow);
+    frame.add(lastGuess);
+    frame.add(playAgainButton);
+
+    frame.setVisible(true);
   }
+  
+  public void actionPerformed(ActionEvent ae) {
+
+    if(ae.getActionCommand().equals("Guess")) {
+      int guess = Integer.parseInt(Uguess.getText());
+
+      if (guess < randomNum) {
+        highLow.setText("Too low");
+        lastGuess.setText("Last guess was " + guess);
+      }
+
+      else if (guess > randomNum) {
+        highLow.setText("Too high");
+        lastGuess.setText("Last guess was " + guess);
+      }
+
+      else {
+        highLow.setText("You got it");
+        lastGuess.setText("Last guess was " + guess);
+      }
+    }
+
+    else if(ae.getActionCommand().equals("Play Again")) {
+      randomNum = r.nextInt(101);
+
+      highLow.setText("");
+      lastGuess.setText("");
+      Uguess.setText("");
+    }
+
+    else {
+      highLow.setText("You pressed Enter. Please press Guess");
+    }
   }
+}
